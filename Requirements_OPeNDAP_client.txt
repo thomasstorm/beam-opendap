@@ -1,0 +1,33 @@
+Requirements on OPeNDAP client for BEAM
+
+- enter lat/lon and time bounds
+- enter file name pattern
+- set URL from where to download
+- set target directory (default possible)
+- if time series tool is installed: provide option to create time series from downloaded products
+- possibly support user authentication on OPeNDAP server
+- show file set matching specifications (V2)
+- tool shall download every file matching the specifications in the background
+- ProgressMonitor in front
+- open every product that has been downloaded
+- create time series, if wished
+
+Possible problem: products may be scattered over server in different directories
+--> server responsibility to make products accessible by canonical URL
+
+Problem: geographic filtering
+--> no problem for CF-conforming products: get DAS, get canonical names for latitude and longitude, filter
+--> for non-CF-conforming products: first patterns can be searched, then ask user for lat/lon variable names
+
+Problem: time filtering
+--> there is no standard on names for the time variable nor on the unit
+--> search for default name patterns inside global attributes (in NetCDF-case, it's NC_GLOBAL)
+--> search for default patterns inside file names
+--> if nothing's found: user can enter pattern to search for in file name
+--> if not applicable, don't filter
+
+Software:
+- for an URL pointing to a directory, return a set of filtered URLs pointing to products
+- FilterBuilder
+- download component: download data from a set of filtered URLs, store into target directory
+- UI
